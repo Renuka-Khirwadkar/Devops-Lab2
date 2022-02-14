@@ -1,0 +1,16 @@
+We will deploy a service based on the Redis 3.0.6 container image
+
+$ docker service create --replicas 3 --name redis --update-delay 10s redis:3.0.6
+$ docker service inspect --pretty redis
+
+Then we will upgrade the service to use the Redis 3.0.7 container image using rolling updates
+We configure the rolling update policy at service deployment time.The --update-delay flag configures the time delay between updates to a service task or sets of tasks  By default the scheduler updates 1 task at a time
+
+$ docker service update --image redis:3.0.7 redis
+$ docker service inspect --pretty redis
+$ docker service update redis
+$ docker service ps redis
+
+
+
+

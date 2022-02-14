@@ -1,0 +1,23 @@
+https://www.geeksforgeeks.org/difference-between-lxc-and-docker-containers/
+
+https://www.edureka.co/blog/docker-tutorial
+
+https://www.edureka.co/blog/what-is-docker-container
+
+https://www.edureka.co/blog/docker-explained/
+
+https://www.edureka.co/blog/install-docker/
+
+https://www.edureka.co/blog/docker-for-windows/
+
+videos:
+
+Docker Tutorial for beginners:
+https://www.youtube.com/watch?v=h0NCZbHjIpY
+
+What is a Docker Container:
+https://www.youtube.com/watch?v=lcQfQRDAMpQ
+
+Docker commands with examples:
+https://www.youtube.com/watch?v=lktzQrHQcYU
+

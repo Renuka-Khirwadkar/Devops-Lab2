@@ -1,0 +1,141 @@
+https://man7.org/linux/man-pages/man7/namespaces.7.html
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/overview_of_containers_in_red_hat_systems/introduction_to_linux_containers
+
+Namespaces provide a layer of isolation for the containers by giving the container a view of what appears to be its own Linux filesystem. This limits what a process can see and therefore restricts the resources available to it.
+
+Docker uses a technology called namespaces to provide the isolated workspace called the container. When you run a container, Docker creates a set of namespaces for that container. These namespaces provide a layer of isolation.
+
+All the containers use the same user namespace and  cgroup resource namespaces others running on the host
+
+https://opensource.com/article/21/8/container-linux-technology
+
+
+How do I find my Docker namespace?
+How to Access Docker Container's Network Namespace from Host
+Identify the docker container id you want to access and run below command as root on host. # docker ps.
+Get docker container's PID: ...
+
+
+
+[root@ip-172-31-21-77 ~]# docker inspect c0f69e5cd207 | grep -i pid
+            "Pid": 4452,
+            "PidMode": "",
+            "PidsLimit": null,
+[root@ip-172-31-21-77 ~]# find / -name 4452
+/proc/4452
+/proc/4452/task/4452
+[root@ip-172-31-21-77 ~]# cd /proc/4452
+[root@ip-172-31-21-77 4452]# ls
+arch_status      environ    mem            patch_state   stat
+attr             exe        mountinfo      personality   statm
+autogroup        fd         mounts         projid_map    status
+auxv             fdinfo     mountstats     root          syscall
+cgroup           gid_map    net            sched         task
+clear_refs       io         ns             schedstat     timens_offsets
+cmdline          latency    numa_maps      sessionid     timers
+comm             limits     oom_adj        setgroups     timerslack_ns
+coredump_filter  loginuid   oom_score      smaps         uid_map
+cpuset           map_files  oom_score_adj  smaps_rollup  wchan
+cwd              maps       pagemap        stack
+[root@ip-172-31-21-77 4452]# cd ns
+[root@ip-172-31-21-77 ns]# ls
+cgroup  mnt  pid               time               user
+ipc     net  pid_for_children  time_for_children  uts
+[root@ip-172-31-21-77 ns]# ls -l
+total 0
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 cgroup -> cgroup:[4026531835]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 ipc -> ipc:[4026532372]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 mnt -> mnt:[4026532370]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 net -> net:[4026532375]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 pid -> pid:[4026532373]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 pid_for_children -> pid:[4026532373]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 time -> time:[4026531834]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 time_for_children -> time:[4026531834]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 user -> user:[4026531837]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 uts -> uts:[4026532371]
+[root@ip-172-31-21-77 ns]# find / -name 2611
+/proc/2611
+/proc/2611/task/2611
+[root@ip-172-31-21-77 ns]# cd /proc/2611
+[root@ip-172-31-21-77 2611]# ls
+arch_status      environ    mem            patch_state   stat
+attr             exe        mountinfo      personality   statm
+autogroup        fd         mounts         projid_map    status
+auxv             fdinfo     mountstats     root          syscall
+cgroup           gid_map    net            sched         task
+clear_refs       io         ns             schedstat     timens_offsets
+cmdline          latency    numa_maps      sessionid     timers
+comm             limits     oom_adj        setgroups     timerslack_ns
+coredump_filter  loginuid   oom_score      smaps         uid_map
+cpuset           map_files  oom_score_adj  smaps_rollup  wchan
+cwd              maps       pagemap        stack
+[root@ip-172-31-21-77 2611]# cd ns
+[root@ip-172-31-21-77 ns]# ls
+cgroup  mnt  pid               time               user
+ipc     net  pid_for_children  time_for_children  uts
+[root@ip-172-31-21-77 ns]# cd pid
+-bash: cd: pid: Not a directory
+[root@ip-172-31-21-77 ns]# ls
+cgroup  mnt  pid               time               user
+ipc     net  pid_for_children  time_for_children  uts
+[root@ip-172-31-21-77 ns]# find / -name 2611
+/proc/2611
+/proc/2611/task/2611
+[root@ip-172-31-21-77 ns]# cd /proc/2611
+[root@ip-172-31-21-77 2611]# ls
+arch_status      environ    mem            patch_state   stat
+attr             exe        mountinfo      personality   statm
+autogroup        fd         mounts         projid_map    status
+auxv             fdinfo     mountstats     root          syscall
+cgroup           gid_map    net            sched         task
+clear_refs       io         ns             schedstat     timens_offsets
+cmdline          latency    numa_maps      sessionid     timers
+comm             limits     oom_adj        setgroups     timerslack_ns
+coredump_filter  loginuid   oom_score      smaps         uid_map
+cpuset           map_files  oom_score_adj  smaps_rollup  wchan
+cwd              maps       pagemap        stack
+[root@ip-172-31-21-77 2611]# cd ns
+[root@ip-172-31-21-77 ns]# ls
+cgroup  mnt  pid               time               user
+ipc     net  pid_for_children  time_for_children  uts
+[root@ip-172-31-21-77 ns]# ls -l
+total 0
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 cgroup -> cgroup:[4026531835]
+lrwxrwxrwx 1 root root 0 Jan 12 16:57 ipc -> ipc:[4026532447]
+lrwxrwxrwx 1 root root 0 Jan 12 16:57 mnt -> mnt:[4026532445]
+lrwxrwxrwx 1 root root 0 Jan 12 16:57 net -> net:[4026532450]
+lrwxrwxrwx 1 root root 0 Jan 12 16:57 pid -> pid:[4026532448]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 pid_for_children -> pid:[4026532448]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 time -> time:[4026531834]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 time_for_children -> time:[4026531834]
+lrwxrwxrwx 1 root root 0 Jan 12 16:58 user -> user:[4026531837]
+lrwxrwxrwx 1 root root 0 Jan 12 16:57 uts -> uts:[4026532446]
+[root@ip-172-31-21-77 ns]# cd ..
+[root@ip-172-31-21-77 2611]# cd ..
+[root@ip-172-31-21-77 proc]# ls
+1      17     2520  2966  4     9              fs             pagetypeinfo
+10     1706   2521  2971  4172  900            interrupts     partitions
+11     1723   2524  2984  4196  902            iomem          sched_debug
+11801  1728   2552  2990  4251  904            ioports        schedstat
+11841  1740   2553  2992  4317  938            irq            scsi
+11842  17646  2556  3     4340  947            kallsyms       self
+11867  17655  2562  3009  4393  956            kcore          slabinfo
+11868  17689  2572  3045  4430  963            keys           softirqs
+11869  17691  2573  3046  4452  acpi           key-users      stat
+12     17716  2587  3068  4504  buddyinfo      kmsg           swaps
+13     17717  2599  3070  6     bus            kpagecgroup    sys
+14     17718  260   3093  676   cgroups        kpagecount     sysrq-trigger
+14103  18     261   3094  682   cmdline        kpageflags     sysvipc
+15     18068  2611  321   688   consoles       latency_stats  thread-self
+15519  18343  262   3210  691   cpuinfo        loadavg        timer_list
+15983  2      264   3228  696   crypto         locks          tty
+1641   21     265   323   793   devices        mdstat         uptime
+1642   2402   266   324   846   diskstats      meminfo        version
+1643   2404   2666  3255  848   dma            misc           vmallocinfo
+1644   2418   2684  3592  849   driver         modules        vmstat
+1645   2419   2798  3605  852   dynamic_debug  mounts         xen
+1646   2423   2799  3624  863   execdomains    mtrr           zoneinfo
+1647   2424   2845  3937  864   filesystems    net
+
+
